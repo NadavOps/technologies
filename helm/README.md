@@ -32,3 +32,4 @@ Links
 * [13 Best Practices for using Helm](https://codersociety.com/blog/articles/helm-best-practices).
 * [Go template language](https://pkg.go.dev/text/template)
 * [Spring template library](https://masterminds.github.io/sprig/)
+* [Lookup as a way to skip resource creation](https://stackoverflow.com/questions/57909821/how-to-tell-helm-to-not-create-change-resource-if-it-already-exists)
