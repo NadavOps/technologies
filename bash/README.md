@@ -28,8 +28,11 @@ References
 ===
 ```
 $?    --> last command status code
-$@    --> all provided arguments
+$#    --> number of provided arguments
+$*    --> all provided arguments as a string
+$@    --> all provided arguments as an array
 $0    --> the running script way to call its filename
+$$    --> the running process PID
 $EUID --> Current userID (root user ID is 0)
 ```
 
@@ -46,3 +49,4 @@ Links
   * [Detailed #1](https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux).
   * [Detailed #2](https://unix.stackexchange.com/questions/148/colorizing-your-terminal-and-shell-environment).
   * [POSIX Compatability](https://unix.stackexchange.com/questions/461071/color-codes-for-echo-dont-work-when-running-a-script-over-ssh).
+* [$* vs $@](https://unix.stackexchange.com/questions/41571/what-is-the-difference-between-and#94135)
