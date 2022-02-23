@@ -3,7 +3,8 @@ bash_logging() {
     local default_color msg_severity msg_severity_color msg_content msg_content_color allowed_severity
     default_color='\033[0m'
     msg_severity=$(echo "$1" | sed 's/[a-z]/\U&/g')
-    allowed_severity=$(echo "$ALLOWED_SEVERITY" | sed 's/[a-z]/\L&/g')
+    LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-INFO}"
+    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | sed 's/[a-z]/\L&/g')
     case $msg_severity in
     DEBUG)
         if [[ ! -z $allowed_severity && $allowed_severity != "debug" ]]; then
