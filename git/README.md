@@ -7,6 +7,7 @@ Git
     * [Git diff](#git-diff)
     * [Git log show and blame](#git-log-show-and-blame)
     * [Git add](#git-add)
+    * [Git tag](#git-tag)
     * [Git rm](#git-rm)
     * [Git reset](#git-reset)
     * [Git revert](#git-revert)
@@ -73,6 +74,14 @@ Git add
 ```
 ## interactive add for certain "hunks" in a file
 git add --patch <filename>
+```
+
+Git tag
+====
+```
+git tag                      --> lists the tags
+git tag tag_name             --> simple tag which points stright to a commit.
+git tag -a tag_name -m "msg" --> anotative tag which points to a tag object containing metadata which points to a commit.
 ```
 
 Git rm
