@@ -38,8 +38,7 @@ bash_logging() {
     *)
         msg_severity_color="\033[0;31m"
         msg_content_color="\033[1;31m"
-printf """
-${msg_severity_color}\"bash_logging\" failed.
+printf """${msg_severity_color}\"bash_logging\" failed.
 ${msg_content_color}Parameter #1: \"$msg_severity\" needs to be one of: \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\"${default_color}
 """
         return 1
