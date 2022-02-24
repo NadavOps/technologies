@@ -4,6 +4,7 @@ Bash
 <!--ts-->
   * [Process commands](#process-commands)
   * [Substrings](#substrings)
+  * [Regular expressions](#regular-expressions)
   * [References](#references)
   * [Links](#links)
 <!--te-->
@@ -22,6 +23,20 @@ Substrings
 # Taken from https://github.com/bobbyiliev/introduction-to-bash-scripting/blob/main/ebook/en/content/008-bash-arrays.md
 letters=( "A""B""C""D""E" ) 
 echo "${letters:2:3}"  --> returns CDE
+```
+
+Regular expressions
+===
+```
+## Expressions
+[:alnum:]  --> all alphanumeric characters (upper+lower+digits)
+[:digit:]  --> digits
+[:lower:]  --> lower
+[:upper:]  --> upper
+```
+```
+## Examples
+sed 's/[^[:upper:] ,.]//g'  --> removes all the characters that are not (upper whitespace comma or dot)
 ```
 
 References

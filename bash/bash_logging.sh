@@ -4,7 +4,7 @@ bash_logging() {
     default_color='\033[0m'
     msg_severity=$(echo "$1" | sed 's/[a-z]/\U&/g')
     LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-INFO}"
-    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | sed 's/[a-z]/\L&/g')
+    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | sed 's/[A-Z]/\L&/g')
     case $msg_severity in
     DEBUG)
         if [[ ! -z $allowed_severity && $allowed_severity != "debug" ]]; then
