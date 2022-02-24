@@ -46,5 +46,5 @@ ${msg_content_color}Parameter #1: \"$msg_severity\" needs to be one of: \"DEBUG\
         ;;
     esac
     msg_content="$2"
-    printf "${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") "$msg_severity":${msg_content_color} "$msg_content"${default_color}\n"
+    printf "${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}\n"
 }
