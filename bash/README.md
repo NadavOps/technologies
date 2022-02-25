@@ -65,3 +65,4 @@ Links
   * [Detailed #2](https://unix.stackexchange.com/questions/148/colorizing-your-terminal-and-shell-environment).
   * [POSIX Compatability](https://unix.stackexchange.com/questions/461071/color-codes-for-echo-dont-work-when-running-a-script-over-ssh).
 * [$* vs $@](https://unix.stackexchange.com/questions/41571/what-is-the-difference-between-and#94135)
+* [Install Fonts](https://www.linuxhowto.net/install-nerd-fonts-to-add-glyphs-in-your-code-on-linux/)
