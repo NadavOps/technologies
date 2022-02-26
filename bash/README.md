@@ -33,6 +33,8 @@ Regular expressions
 [:digit:]  --> digits
 [:lower:]  --> lower
 [:upper:]  --> upper
+[!abc...]  --> match the opposite of the characters listed in the brackets 
+?          --> match any single character
 ```
 ```
 ## Examples
@@ -66,3 +68,5 @@ Links
   * [POSIX Compatability](https://unix.stackexchange.com/questions/461071/color-codes-for-echo-dont-work-when-running-a-script-over-ssh).
 * [$* vs $@](https://unix.stackexchange.com/questions/41571/what-is-the-difference-between-and#94135)
 * [Install Fonts](https://www.linuxhowto.net/install-nerd-fonts-to-add-glyphs-in-your-code-on-linux/)
+* [Shift command exaplin](https://www.geeksforgeeks.org/shift-command-in-linux-with-examples/)
+* [source a file with curl](https://stackoverflow.com/questions/10520605/bashs-source-command-not-working-with-a-file-curld-from-internet)
