@@ -85,18 +85,18 @@ verify_mac_package() {
     package_name="$1"
     package_type="$2"
     if [[ $package_type == "CLI" ]]; then
-        bash_logging "Verify CLI mac package $package_name" DEBUG
+        bash_logging "Verify CLI mac package \"$package_name\"" DEBUG
         brew_flag="--formula"
     elif [[ $package_type == "GUI" ]]; then
-        bash_logging "Verify GUI mac package $package_name" DEBUG
+        bash_logging "Verify GUI mac package \"$package_name\"" DEBUG
         brew_flag="--cask"
     else
         bash_logging "Verifying mac package failed. package_name: $package_name, package_type: $package_type. terminating" ERROR
         exit 1
     fi
     verify_command="brew list $brew_flag | grep \"$package_name\$\" &> /dev/null && \
-                    (bash_logging "Package: $package_name already installed" DEBUG && return 0) || \
-                    (bash_logging "Package: $package_name is not installed" DEBUG && return 1)"
+                    (bash_logging \"Package: $package_name already installed\" DEBUG && return 0) || \
+                    (bash_logging \"Package: $package_name is not installed\" DEBUG && return 1)"
     eval $verify_command
 }
 
@@ -105,13 +105,13 @@ install_mac_package() {
     package_name="$1"
     package_type="$2"
     if [[ $package_type == "CLI" ]]; then
-        bash_logging "Install CLI mac package $package_name" DEBUG
+        bash_logging "Install CLI mac package \"$package_name\"" DEBUG
         brew_flag=""
     elif [[ $package_type == "GUI" ]]; then
-        bash_logging "Install GUI mac package $package_name" DEBUG
+        bash_logging "Install GUI mac package \"$package_name\"" DEBUG
         brew_flag=" --cask"
     else
-        bash_logging "Installing mac package failed. package_name: $package_name, package_type: $package_type. terminating" ERROR
+        bash_logging "Installing mac package failed. package_name: \"$package_name\", package_type: \"$package_type\". terminating" ERROR
         exit 1
     fi
     verify_command="sudo brew install$brew_flag $package_type"
