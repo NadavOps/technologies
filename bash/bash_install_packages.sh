@@ -188,6 +188,5 @@ PACKAGES_MAC=( "lima"
                "docker" )
 
 source bash_init_functions.sh
-LOGGING_ALLOWED_SEVERITY="debug"
 
 main
