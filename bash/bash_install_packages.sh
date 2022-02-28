@@ -1,4 +1,15 @@
 #!/bin/bash
+verify_custom_functions_exists() {
+    local functions_list function_name
+    function_list=( "bash_logging" )
+    for function_name in "${function_list[@]}" ; do
+        if [[ $(type -t $function_name) != function ]]; then
+            echo "\"$function_name\" function was not found. export the function and re-try" >&2
+            exit 1
+        fi
+    fi
+}
+
 verify_linux_package_manager() {
     if [[ $(which apt) ]]; then
         bash_logging "\"apt\" package manager was found" DEBUG
@@ -127,6 +138,12 @@ install_all_mac_packages() {
         install_mac_package "$package_name" "CLI"
     done
 
+    for package_item in "${PACKAGES_MAC[@]}" ; do
+        package_name=$(echo "$package_item" | awk -F "---" '{print $1}')
+        verify_mac_package "$package_name" "CLI" && continue
+        install_mac_package "$package_name" "CLI"
+    done
+
     for package_name in "${PACKAGES_GUI[@]}" ; do
         verify_mac_package "$package_name" "GUI" && continue
         install_mac_package "$package_name" "GUI"
@@ -135,6 +152,7 @@ install_all_mac_packages() {
 
 main() {
     local os_type
+    verify_custom_functions_exists
     os_type=$(uname | sed 's/[[:alnum:]]/\L&/g')
     if [[ $os_type == *linux* ]]; then
         bash_logging "we in linux" DEBUG
@@ -157,14 +175,17 @@ PACKAGES_PREREQUISITE=( "apt-transport-https"
 PACKAGES_CLI=( "kubectl---https://apt.kubernetes.io/ kubernetes-xenial main---https://packages.cloud.google.com/apt/doc/apt-key.gpg"
                 "helm---https://baltocdn.com/helm/stable/debian/ all main---https://baltocdn.com/helm/signing.asc"
                 "jq"
+                "shellcheck"
                 "mysql-client" )
              # unsupported for linux ATM
              # install_name---filesystem_name
 PACKAGES_GUI=( "microsoft-edge"
-                "google-chrome"
-                "firefox"
-                "visual-studio-code"
-                "iterm2" )
+               "google-chrome"
+               "firefox"
+               "visual-studio-code"
+               "iterm2" )
+PACKAGES_MAC=( "lima"
+               "docker" )
 
 source bash_init_functions.sh
 LOGGING_ALLOWED_SEVERITY="debug"
