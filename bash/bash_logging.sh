@@ -1,6 +1,7 @@
 #!/bin/bash
 bash_logging() {
     local default_color msg_severity msg_severity_color msg_content msg_content_color allowed_severity
+    local msg_enrich
     default_color='\033[0m'
     msg_severity=$(echo "$2" | sed 's/[a-z]/\U&/g')
     msg_severity="${msg_severity:-INFO}"
@@ -47,5 +48,10 @@ ${msg_content_color}Parameter #2: \"$msg_severity\" needs to be one of: \"DEBUG\
         ;;
     esac
     msg_content="$1"
-    printf "${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}\n"
+    msg_enrich="${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}\n"
+    if [[ "$msg_severity" == "ERROR" ]]; then
+        printf "$msg_enrich" >&2
+    else
+        printf "$msg_enrich"
+    fi
 }
