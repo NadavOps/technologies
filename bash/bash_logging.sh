@@ -4,8 +4,8 @@ bash_logging() {
     local msg_enrich
     default_color='\033[0m'
     msg_severity=$(echo "$2" | sed 's/[a-z]/\U&/g')
-    msg_severity="${msg_severity:-INFO}"
-    LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-INFO}"
+    msg_severity="${msg_severity:-DEBUG}"
+    LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-DEBUG}"
     allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | sed 's/[A-Z]/\L&/g')
     case $msg_severity in
     DEBUG)
@@ -41,17 +41,17 @@ bash_logging() {
     *)
         msg_severity_color="\033[0;31m"
         msg_content_color="\033[1;31m"
-printf """${msg_severity_color}\"bash_logging\" failed.
-${msg_content_color}Parameter #2: \"$msg_severity\" needs to be one of: \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\"${default_color}
-""" >&2
+        echo -e "${msg_severity_color}\"bash_logging\" failed.
+${msg_content_color}Parameter #2: \"$msg_severity\" needs to be one of:
+\"DEBUG\", \"INFO\", \"WARN\", \"ERROR\"${default_color}" >&2
         return 1
         ;;
     esac
     msg_content="$1"
-    msg_enrich="${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}\n"
+    msg_enrich="${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}"
     if [[ "$msg_severity" == "ERROR" ]]; then
-        printf "$msg_enrich" >&2
+        echo -e "$msg_enrich" >&2
     else
-        printf "$msg_enrich"
+        echo -e "$msg_enrich"
     fi
 }
