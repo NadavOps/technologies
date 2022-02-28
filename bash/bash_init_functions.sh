@@ -14,9 +14,7 @@ for item in "${ESSENTIAL_FUNCTIONS[@]}" ; do
         export -f $function_name
     fi
 
-    if [[ $(type -t $function_name) == function ]]; then
-        continue
-    else
+    if [[ $(type -t $function_name) != function ]]; then
         echo "\"$function_name\" function was not found. export the function and re-try" >&2
         exit 1
     fi
