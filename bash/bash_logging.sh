@@ -41,9 +41,9 @@ bash_logging() {
     *)
         msg_severity_color="\033[0;31m"
         msg_content_color="\033[1;31m"
-        echo -e "${msg_severity_color}\"bash_logging\" failed.
-${msg_content_color}Parameter #2: \"$msg_severity\" needs to be one of:
-\"DEBUG\", \"INFO\", \"WARN\", \"ERROR\"${default_color}" >&2
+        echo -e """${msg_severity_color}ERROR: \"bash_logging\" failed.
+        ${msg_content_color}Allowed parameters: \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\".
+        \"msg_severity\" was set to: \"$msg_severity\".${default_color}""" >&2
         return 1
         ;;
     esac
