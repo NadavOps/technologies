@@ -26,5 +26,5 @@ for item in "${ESSENTIAL_FUNCTIONS[@]}" ; do
     exit 1
     fi
 
-    functions_counter=$(( ++$functions_amount ))
+    functions_counter=$(( $functions_counter+$functions_amount ))
 done
