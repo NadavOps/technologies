@@ -70,3 +70,4 @@ Links
 * [Install Fonts](https://www.linuxhowto.net/install-nerd-fonts-to-add-glyphs-in-your-code-on-linux/)
 * [Shift command exaplin](https://www.geeksforgeeks.org/shift-command-in-linux-with-examples/)
 * [source a file with curl](https://stackoverflow.com/questions/10520605/bashs-source-command-not-working-with-a-file-curld-from-internet)
+* [lima + nerdctl](https://medium.com/@oribenhur/a-better-alternative-for-docker-desktop-3e8fa38d618)
