@@ -1,9 +1,9 @@
 #!/bin/bash
 verify_custom_functions_exists() {
     local functions_list function_name
-    function_list=( "bash_logging" )
-    for function_name in "${function_list[@]}" ; do
-        if [[ $(type -t $function_name) != function ]]; then
+    functions_list=( "bash_logging" )
+    for function_name in "${functions_list[@]}" ; do
+        if [[ $(type -t "$function_name") != function ]]; then
             echo "\"$function_name\" function was not found. export the function and re-try" >&2
             exit 1
         fi
@@ -11,7 +11,7 @@ verify_custom_functions_exists() {
 }
 
 verify_linux_package_manager() {
-    if [[ $(which apt) ]]; then
+    if [[ $(command -v apt) ]]; then
         bash_logging INFO "\"apt\" package manager was found"
         return 0
     else
@@ -21,7 +21,7 @@ verify_linux_package_manager() {
 }
 
 verify_mac_package_manager() {
-    if [[ $(which brew) ]]; then
+    if [[ $(command -v brew) ]]; then
         bash_logging INFO "\"brew\" package manager was found"
         return 0
     else
@@ -120,7 +120,7 @@ verify_mac_package() {
     verify_command="brew list $brew_flag | grep \"$package_name\$\" &> /dev/null && \
                     (bash_logging INFO \"Package: $package_name already installed\" && return 0) || \
                     (bash_logging WARN \"Package: $package_name is not installed\" && return 1)"
-    eval $verify_command
+    eval "$verify_command"
 }
 
 install_mac_package() {
@@ -139,7 +139,7 @@ install_mac_package() {
     fi
     verify_command="brew install$brew_flag $package_name"
     bash_logging DEBUG "$verify_command"
-    eval $verify_command && return 0
+    eval "$verify_command" && return 0
     bash_logging ERROR "Installing mac package failed. package_name: \"$package_name\", package_type: \"$package_type\". terminating" && exit 1
 }
 
