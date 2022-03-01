@@ -3,10 +3,10 @@ bash_logging() {
     local default_color msg_severity msg_severity_color msg_content msg_content_color allowed_severity
     local msg_enrich
     default_color='\033[0m'
-    msg_severity=$(echo "$2" | sed 's/[a-z]/\U&/g')
+    msg_severity=$(echo "$1" | tr [[:lower:]] [[:upper:]])
     msg_severity="${msg_severity:-DEBUG}"
     LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-DEBUG}"
-    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | sed 's/[A-Z]/\L&/g')
+    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | tr [[:upper:]] [[:lower:]])
     case $msg_severity in
     DEBUG)
         if [[ ! -z $allowed_severity && $allowed_severity != "debug" ]]; then
@@ -47,7 +47,7 @@ bash_logging() {
         return 1
         ;;
     esac
-    msg_content="$1"
+    msg_content="$2"
     msg_enrich="${msg_severity_color}$(date -u "+%d.%m.%Y %H:%M:%S %Z") $msg_severity:${msg_content_color} $msg_content ${default_color}"
     if [[ "$msg_severity" == "ERROR" ]]; then
         echo -e "$msg_enrich" >&2
