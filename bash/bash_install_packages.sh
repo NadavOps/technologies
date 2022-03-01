@@ -46,8 +46,8 @@ verify_linux_package() {
     package_name="$1"
     bash_logging DEBUG "Verify linux package \"$package_name\""
     dpkg -s $package_name &> /dev/null && \
-    (bash_logging DEBUG "Package: \"$package_name\" already installed" && return 0) || \
-    (bash_logging DEBUG "Package: \"$package_name\" is not installed" && return 1)
+    (bash_logging INFO "Package: \"$package_name\" already installed" && return 0) || \
+    (bash_logging WARN "Package: \"$package_name\" is not installed" && return 1)
 }
 
 install_repository() {
@@ -98,12 +98,8 @@ install_linux_packages_list() {
         verify_linux_package "$package_name" && continue
         install_repo=$(echo "$package_item" | awk -F "---" '{print $3}')
         gpg_key_url=$(echo "$package_item" | awk -F "---" '{print $4}')
-        bash_logging "summary" INFO
-        bash_logging "$package_name" INFO
-        bash_logging "$install_repo" INFO
-        bash_logging "$gpg_key_url" INFO
-        # install_repository "$package_name" "$install_repo" "$gpg_key_url" || exit 1
-        # install_linux_package "$package_name"
+        install_repository "$package_name" "$install_repo" "$gpg_key_url" || exit 1
+        install_linux_package "$package_name"
     done
 }
 
