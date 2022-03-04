@@ -1,15 +1,4 @@
 #!/bin/bash
-verify_custom_functions_exists() {
-    local functions_list function_name
-    functions_list=( "bash_logging" )
-    for function_name in "${functions_list[@]}" ; do
-        if [[ $(type -t "$function_name") != function ]]; then
-            echo "\"$function_name\" function was not found. export the function and re-try" >&2
-            exit 1
-        fi
-    done
-}
-
 verify_linux_package_manager() {
     if [[ $(command -v apt) ]]; then
         bash_logging INFO "\"apt\" package manager was found"
@@ -28,17 +17,6 @@ verify_mac_package_manager() {
         bash_logging DEBUG "\"brew\" package manager was not found. Installing"
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi   
-}
-
-verify_parameters() {
-    local all_parameters
-    all_parameters=("$@")
-
-    declare -p all_parameters 2> /dev/null | grep -q '^declare \-a' \
-    || bash_logging ERROR "Something is not right with the parameters: \"${all_parameters[@]}\""
-
-    [[ ! -z ${all_parameters[@]} ]] && return 0 \
-    || bash_logging ERROR "No arguments were supplied: \"${all_parameters[@]}\""
 }
 
 verify_linux_package() {
@@ -86,7 +64,7 @@ install_linux_packages_list() {
 
     packages_list=("$@")
 
-    verify_parameters "${packages_list[@]}"
+    verify_array "${packages_list[@]}"
     
     bash_logging DEBUG "Updating apt"
     sudo apt-get update -y
@@ -148,7 +126,7 @@ install_mac_packages_list() {
 
     packages_list=("$@")
 
-    verify_parameters "${packages_list[@]}"
+    verify_array "${packages_list[@]}"
 
     for package_item in "${packages_list[@]}" ; do
         package_name=$(echo "$package_item" | awk -F "---" '{print $1}')
@@ -158,28 +136,25 @@ install_mac_packages_list() {
     done
 }
 
-main() {
+bash_install_packages() {
+    verify_imported_functions_exists "bash_logging" "verify_array"
+    bash_logging DEBUG "Running from $0"
     local os_type
-    verify_custom_functions_exists
+    PACKAGES_LIST=("$@")
     os_type=$(uname | tr [[:upper:]] [[:lower:]])
     if [[ $os_type == *linux* ]]; then
-        bash_logging DEBUG "we in linux"
+        bash_logging DEBUG "We in Linux. (os_type: \"$os_type\")"
         verify_linux_package_manager
         install_linux_packages_list "${PACKAGES_LIST[@]}"
     elif [[ $os_type == *darwin* ]]; then
-        bash_logging DEBUG "we in mac"
+        bash_logging DEBUG "We in Mac. (os_type: \"$os_type\")"
         verify_mac_package_manager
         install_mac_packages_list "${PACKAGES_LIST[@]}"
     else
         bash_logging ERROR "what is this OS? (os_type is $os_type)"
-        return 1
+        exit 1
     fi
 }
-
-source bash_init_functions.sh
-PACKAGES_LIST=("$@")
-main
-
 
 # PACKAGES_PREREQUISITE=( "apt-transport-https"
 #                         "ca-certificates"
