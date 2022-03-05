@@ -1,9 +1,13 @@
 #!/bin/bash
-                    # local_path---remote_git_path
+
+GIT_URL="https://raw.githubusercontent.com/NadavOps/technologies/main/bash"
+RELATIONAL_PATH=".shellrc.d"
+
 ESSENTIAL_FUNCTIONS=(
-"bash_logging.sh---https://raw.githubusercontent.com/NadavOps/technologies/main/bash/bash_logging.sh"
-"bash_general_functions.sh---https://raw.githubusercontent.com/NadavOps/technologies/main/bash/bash_general_functions.sh"
-"bash_install_packages.sh---https://raw.githubusercontent.com/NadavOps/technologies/main/bash/bash_install_packages.sh"
+# local_path---remote_git_path
+"./$RELATIONAL_PATH/bash_logging.sh---$GIT_URL/$RELATIONAL_PATH/bash_logging.sh"
+"./$RELATIONAL_PATH/bash_general_functions.sh---$GIT_URL/$RELATIONAL_PATH/bash_general_functions.sh"
+"./$RELATIONAL_PATH/bash_install_packages.sh---$GIT_URL/$RELATIONAL_PATH/bash_install_packages.sh"
 )
 
 functions_counter=0
