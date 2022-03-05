@@ -71,7 +71,7 @@ install_linux_packages_list() {
 
     for package_item in "${packages_list[@]}" ; do
         package_name=$(echo "$package_item" | awk -F "---" '{print $1}')
-        package_type=$(echo "$package_item" | awk -F "---" '{print $2}' | tr [[:lower:]] [[:upper:]])
+        package_type=$(echo "$package_item" | awk -F "---" '{print $2}' | tr "[[:lower:]]" "[[:upper:]]")
         [[ "$package_type" == "GUI" ]] && bash_logging WARN "This script doesn't support GUI installs for linux. \"package_type\" is: $package_type" && continue
         verify_linux_package "$package_name" && continue
         install_repo=$(echo "$package_item" | awk -F "---" '{print $3}')
@@ -84,7 +84,7 @@ install_linux_packages_list() {
 verify_mac_package() {
     local package_name package_type verify_command brew_flag
     package_name="$1"
-    package_type=$( echo "$2" | tr [[:lower:]] [[:upper:]] )
+    package_type=$( echo "$2" | tr "[[:lower:]]" "[[:upper:]]" )
     if [[ $package_type == "CLI" ]]; then
         bash_logging DEBUG "Verify CLI mac package \"$package_name\""
         brew_flag="--formula"
@@ -130,7 +130,7 @@ install_mac_packages_list() {
 
     for package_item in "${packages_list[@]}" ; do
         package_name=$(echo "$package_item" | awk -F "---" '{print $1}')
-        package_type=$(echo "$package_item" | awk -F "---" '{print $2}' | tr [[:lower:]] [[:upper:]])
+        package_type=$(echo "$package_item" | awk -F "---" '{print $2}' | tr "[[:lower:]]" "[[:upper:]]")
         verify_mac_package "$package_name" "$package_type" && continue
         install_mac_package "$package_name" "$package_type"
     done
@@ -141,7 +141,7 @@ bash_install_packages() {
     bash_logging DEBUG "Running from $0"
     local os_type
     PACKAGES_LIST=("$@")
-    os_type=$(uname | tr [[:upper:]] [[:lower:]])
+    os_type=$(uname | tr "[[:upper:]]" "[[:lower:]]")
     if [[ $os_type == *linux* ]]; then
         bash_logging DEBUG "We in Linux. (os_type: \"$os_type\")"
         verify_linux_package_manager

@@ -3,10 +3,10 @@ bash_logging() {
     local default_color msg_severity msg_severity_color msg_content msg_content_color allowed_severity
     local msg_enrich
     default_color='\033[0m'
-    msg_severity=$(echo "$1" | tr [[:lower:]] [[:upper:]])
+    msg_severity=$(echo "$1" | tr "[[:lower:]]" "[[:upper:]]")
     msg_severity="${msg_severity:-DEBUG}"
     LOGGING_ALLOWED_SEVERITY="${LOGGING_ALLOWED_SEVERITY:-DEBUG}"
-    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | tr [[:upper:]] [[:lower:]])
+    allowed_severity=$(echo "$LOGGING_ALLOWED_SEVERITY" | tr "[[:upper:]]" "[[:lower:]]")
     case $msg_severity in
     DEBUG)
         if [[ ! -z $allowed_severity && $allowed_severity != "debug" ]]; then

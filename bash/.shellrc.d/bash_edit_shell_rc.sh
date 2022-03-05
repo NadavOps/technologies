@@ -1,3 +1,4 @@
+#!/bin/bash
 update_rc_file() {
     local current_rc_file archive_directory input_shell_rc_file
     current_rc_file="$1"
@@ -20,7 +21,7 @@ bash_edit_shell_rc() {
     input_scripts_directories=("$@")
     archive_directory="$HOME/archive"
     mkdir -p "$archive_directory"
-    os_type=$(uname | tr [[:upper:]] [[:lower:]])
+    os_type=$(uname | tr "[[:upper:]]" "[[:lower:]])"
     if [[ $os_type == *linux* || $os_type == *darwin* ]]; then
         current_rc_file="$HOME/.bashrc"
         update_rc_file "$current_rc_file" "$archive_directory" "$input_shell_rc_file" || exit 1

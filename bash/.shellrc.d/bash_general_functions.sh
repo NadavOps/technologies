@@ -25,14 +25,14 @@ verify_file() {
     local file_path
     file_path="$1"
     [[ ! -f "$file_path" ]] && \
-    bash_logging ERROR "file_path: \"$file_path\" is not a file/ not exists" && return 1
+    bash_logging ERROR "file_path: \"$file_path\" is not a file/ not exists" && return 1 || return 0
 }
 
 verify_dir() {
     local dir_path
     dir_path="$1"
     [[ ! -d "$dir_path" ]] && \
-    bash_logging ERROR "dir_path: \"$dir_path\" is not a dir/ not exists" && return 1
+    bash_logging ERROR "dir_path: \"$dir_path\" is not a dir/ not exists" && return 1 || return 0
 }
 
 archive_file() {
