@@ -1,3 +1,4 @@
+#!/bin/bash
 bash_prompt() {
     local exit_code="$?"
     local default="\033[0m"; local cyan="\033[38;5;6m"; local lime='\033[38;5;118m';
