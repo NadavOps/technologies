@@ -1,19 +1,43 @@
 #!/bin/bash
-update_rc_file() {
-    local current_rc_file archive_directory input_shell_rc_file
+create_rc_dirs() {
+    local current_rc_file shellrc_d_directories shellrc_directory shellrc_file archive_directory dest_shellrc_file
     current_rc_file="$1"
+    archive_directory="$2"
+    shellrc_d_directories=( ".shellrc.d" "$current_rc_file.d" )
+    for shellrc_directory in "${shellrc_d_directories[@]}"; do
+        mkdir -p "$HOME/$shellrc_directory" && bash_logging DEBUG "Creating if not exist \"$HOME/$shellrc_directory\""
+        for shellrc_file in $(ls $shellrc_directory); do
+            dest_shellrc_file="$HOME/$shellrc_directory/$shellrc_file"
+            verify_file "$dest_shellrc_file" && \
+            bash_logging WARN "The file: \"$dest_shellrc_file\" already exist, will try to archive first" && \
+            archive_file "$dest_shellrc_file" "$archive_directory"
+            cp "$shellrc_file" "$dest_shellrc_file" && \
+            bash_logging DEBUG "Copy \"$shellrc_file\" to \"$HOME/$shellrc_directory/$shellrc_file\""
+        done
+    done
+}
+
+update_rc_file() {
+    local current_rc_file archive_directory input_shell_rc_file enrich_directory enrich_file contactinated_files
+    current_rc_file="$HOME/$1"
     archive_directory="$2"
     input_shell_rc_file="$3"
     touch "$current_rc_file" && bash_logging WARN "Editing \"$current_rc_file\". (os_type: \"$os_type\")"
     archive_file "$current_rc_file" "$archive_directory" || return 1
-    cp "$input_shell_rc_file" "$current_rc_file" && \
+    enrich_directory="./shellrc_tpl"
+    verify_dir "$enrich_directory" || return 1
+    for enrich_file in $(ls $enrich_directory); do
+        contactinated_files+=" && echo "" && cat $enrich_directory/$enrich_file"
+    done
+    contactinated_files="cat $input_shell_rc_file$contactinated_files"
+    eval "$contactinated_files" > "$current_rc_file" && \
     bash_logging INFO "Copied \"$input_shell_rc_file\" into the running rc file: \"$current_rc_file\"" || \
     bash_logging ERROR "Failed to copy \"$input_shell_rc_file\" into the running rc file: \"$current_rc_file\""
 }
 
 bash_edit_shell_rc() {
     set -e
-    verify_imported_functions_exists "bash_logging" "verify_array" "archive_file"
+    verify_imported_functions_exists "bash_logging" "verify_array" "archive_file" "verify_file" "verify_dir"
     set +e
     bash_logging DEBUG "Running from $0"
     local input_shell_rc_file input_scripts_directories os_type archive_directory current_rc_file
@@ -25,12 +49,14 @@ bash_edit_shell_rc() {
     mkdir -p "$archive_directory"
     os_type=$(uname | tr "[[:upper:]]" "[[:lower:]]")
     if [[ $os_type == *linux* || $os_type == *darwin* ]]; then
-        current_rc_file="$HOME/.bashrc"
-        update_rc_file "$current_rc_file" "$archive_directory" "$input_shell_rc_file" || exit 1
+        current_rc_file=".bashrc"
+        create_rc_dirs "$current_rc_file" "$archive_directory"
+        # update_rc_file "$current_rc_file" "$archive_directory" "$input_shell_rc_file" || exit 1
     fi
     if [[ $os_type == *darwin* ]]; then
-        current_rc_file="$HOME/.zshrc"
-        update_rc_file "$current_rc_file" "$archive_directory" "$input_shell_rc_file" || exit 1
+        current_rc_file=".zshrc"
+        create_rc_dirs "$current_rc_file"
+        # update_rc_file "$current_rc_file" "$archive_directory" "$input_shell_rc_file" || exit 1
     fi
     if [[ $os_type != *linux* && $os_type != *darwin* ]]; then
         bash_logging ERROR "what is this OS? (os_type is $os_type)"
