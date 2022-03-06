@@ -21,3 +21,6 @@ kubecontext() {
     kubectl config use-context "$current_context" > /dev/null
     export KUBECONFIG="$tmp_config"
 }
+
+## need to add that with conditional of completion
+## https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
