@@ -4,7 +4,7 @@ update_rc_file() {
     current_rc_file="$1"
     archive_directory="$2"
     input_shell_rc_file="$2"
-    bash_logging DEBUG "Editing \"$current_rc_file\". (os_type: \"$os_type\")"
+    touch "$current_rc_file" && bash_logging DEBUG "Editing \"$current_rc_file\". (os_type: \"$os_type\")"
     archive_file "$current_rc_file" "$archive_directory" || return 1
     cp "$input_shell_rc_file" "$current_rc_file" && \
     bash_logging INFO "Copied \"$input_shell_rc_file\" into the running rc file: \"$current_rc_file\"" || \
@@ -36,4 +36,5 @@ bash_edit_shell_rc() {
     fi
 }
 
+## in update rc need to handle the situation where the rc file does not exist
 ## add bash_prompt_source
