@@ -3,8 +3,8 @@ update_rc_file() {
     local current_rc_file archive_directory input_shell_rc_file
     current_rc_file="$1"
     archive_directory="$2"
-    input_shell_rc_file="$2"
-    touch "$current_rc_file" && bash_logging DEBUG "Editing \"$current_rc_file\". (os_type: \"$os_type\")"
+    input_shell_rc_file="$3"
+    touch "$current_rc_file" && bash_logging WARN "Editing \"$current_rc_file\". (os_type: \"$os_type\")"
     archive_file "$current_rc_file" "$archive_directory" || return 1
     cp "$input_shell_rc_file" "$current_rc_file" && \
     bash_logging INFO "Copied \"$input_shell_rc_file\" into the running rc file: \"$current_rc_file\"" || \
@@ -12,7 +12,9 @@ update_rc_file() {
 }
 
 bash_edit_shell_rc() {
+    set -e
     verify_imported_functions_exists "bash_logging" "verify_array" "archive_file"
+    set +e
     bash_logging DEBUG "Running from $0"
     local input_shell_rc_file input_scripts_directories os_type archive_directory current_rc_file
     input_shell_rc_file="$1"
@@ -36,5 +38,5 @@ bash_edit_shell_rc() {
     fi
 }
 
-## in update rc need to handle the situation where the rc file does not exist
+bash_edit_shell_rc "$1"
 ## add bash_prompt_source
