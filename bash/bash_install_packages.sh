@@ -137,25 +137,29 @@ install_mac_packages_list() {
 }
 
 bash_install_packages() {
+    set -e
     verify_imported_functions_exists "bash_logging" "verify_array"
+    set +e
     bash_logging DEBUG "Running from $0"
-    local os_type
-    PACKAGES_LIST=("$@")
+    local os_type packages_list
+    packages_list=("$@")
     os_type=$(uname | tr "[[:upper:]]" "[[:lower:]]")
     if [[ $os_type == *linux* ]]; then
         bash_logging DEBUG "We in Linux. (os_type: \"$os_type\")"
         verify_linux_package_manager
-        install_linux_packages_list "${PACKAGES_LIST[@]}"
+        install_linux_packages_list "${packages_list[@]}"
     elif [[ $os_type == *darwin* ]]; then
         bash_logging DEBUG "We in Mac. (os_type: \"$os_type\")"
         verify_mac_package_manager
-        install_mac_packages_list "${PACKAGES_LIST[@]}"
+        install_mac_packages_list "${packages_list[@]}"
     else
         bash_logging ERROR "what is this OS? (os_type is $os_type)"
         exit 1
     fi
 }
 
+PACKAGES_LIST=("$@")
+bash_install_packages "${PACKAGES_LIST[@]}"
 # PACKAGES_PREREQUISITE=( "apt-transport-https"
 #                         "ca-certificates"
 #                         "curl" )
