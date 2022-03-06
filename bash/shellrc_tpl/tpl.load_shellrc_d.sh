@@ -6,7 +6,8 @@ elif [[ $(echo "$0") == "-zsh" ]]
     autoload bashcompinit && bashcompinit
     autoload -Uz compinit && compinit
 else
-    exit 0
+    init_shell_file=".shellrc"
+    echo "The shell: \"$0\" is not identified"
 fi
 
 shellrc_d_directories=( "$HOME/.shellrc.d" "$HOME/$init_shell_file.d" )
