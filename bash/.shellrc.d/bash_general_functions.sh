@@ -3,8 +3,8 @@ verify_imported_functions_exists() {
     local functions_list function_name
     functions_list=( "$@" )
     for function_name in "${functions_list[@]}" ; do
-        if [[ $(type -t "$function_name") != function ]]; then
-            bash_logging ERROR "\"$function_name\" function was not found. export the function and re-try"
+        if ! type "$function_name" | grep -q function ; then
+            bash_logging ERROR "function: \"$function_name\" was not found. export the function and re-try"
             exit 1
         fi
     done
