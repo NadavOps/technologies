@@ -7,7 +7,6 @@ ESSENTIAL_FUNCTIONS=(
 # local_path---remote_git_path
 "./$RELATIONAL_PATH/bash_logging.sh---$GIT_URL/$RELATIONAL_PATH/bash_logging.sh"
 "./$RELATIONAL_PATH/bash_general_functions.sh---$GIT_URL/$RELATIONAL_PATH/bash_general_functions.sh"
-"./$RELATIONAL_PATH/bash_install_packages.sh---$GIT_URL/$RELATIONAL_PATH/bash_install_packages.sh"
 )
 
 functions_counter=0
