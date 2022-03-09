@@ -136,7 +136,7 @@ Changing history
 git log; to find the desired commit
 git rebase -i HEAD~3
 git rebase -i <commit hash>
-change the pick word
+change the pick word (:%s/FindMe/ReplaceME/g)
     s to squash
     edit to overall change
         while in edit it is possible to run:
